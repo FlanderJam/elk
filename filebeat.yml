@@ -18,8 +18,11 @@ processors:
 
 - decode_json_fields:
     fields: ["message"]
-    target: "json"
+    process_array: true
+    target: "container_log"
     overwrite_keys: true
+    expand_keys: true
+    add_error_key: true
 
 output.elasticsearch:
   hosts: ["https://es01:9200"]
@@ -30,7 +33,6 @@ output.elasticsearch:
   indices:
     - index: "filebeat-%{[agent.version]}-%{+yyyy.MM.dd}"
 
-logging.json: true
 logging.metrics.enabled: false
 
 setup.kibana:
